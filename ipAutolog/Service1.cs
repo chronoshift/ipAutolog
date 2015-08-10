@@ -22,13 +22,11 @@ namespace ipAutolog
 
         protected override void OnStart(string[] args)
         {
-            string run = null;
-            run = main();
-
-
+            main();
+ 
         }
 
-        public string main()
+        public void main()
 
         {
             //Console.WriteLine("Initializing...");
@@ -42,6 +40,18 @@ namespace ipAutolog
                 System.Threading.Thread.Sleep(1800000);
             }
             
+        }
+
+        public void CheckFileAge()
+
+        {
+            DateTime fileCreatedDate = File.GetCreationTime(@"c:\ipExternalLog\IPlog.txt");
+            DateTime today = System.DateTime.Now;
+            Double totaldaysbetween = (today - fileCreatedDate).TotalDays;
+            if (totaldaysbetween > 30.0)
+                {
+                File.Delete(@"c:\ipExternalLog\IPlog.txt");
+                }
         }
 
 
@@ -72,13 +82,12 @@ namespace ipAutolog
             if (!File.Exists(path))
             {
                 // Create a file to write to. 
+                CheckFileAge();
                 using (StreamWriter sw = File.CreateText(path))
                 {
                     sw.WriteLine(ip + " - " + DateTime.Now);
                 }
             }
-            // This text is always added, making the file longer over time 
-            // if it is not deleted. 
             using (StreamWriter sw = File.AppendText(path))
             {
                 sw.WriteLine(ip + " - " + DateTime.Now);
