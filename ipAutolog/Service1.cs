@@ -22,14 +22,14 @@ namespace ipAutolog
 
         protected override void OnStart(string[] args)
         {
-            Console.WriteLine("Initializing...");
+            //Console.WriteLine("Initializing...");
             while (true)
                 {
                     String ip = null;
                     ip = GetExternalIP();
                     logIP(ip);
-                    Console.WriteLine("IP Logged...");
-                    Console.WriteLine("Sleeping...");
+                    //Console.WriteLine("IP Logged...");
+                   // Console.WriteLine("Sleeping...");
                     System.Threading.Thread.Sleep(1800000);
                 }
 
@@ -43,10 +43,10 @@ namespace ipAutolog
 
             try
                 {
-                    Console.WriteLine("Scanning for IP...");
+                    //Console.WriteLine("Scanning for IP...");
                     WebClient client = new WebClient();
                     result = client.DownloadString(url);
-                    Console.WriteLine(result);
+                   // Console.WriteLine(result);
                     return result;
                 }
             catch (Exception ex)
