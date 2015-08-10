@@ -22,20 +22,29 @@ namespace ipAutolog
 
         protected override void OnStart(string[] args)
         {
-            //Console.WriteLine("Initializing...");
-            while (true)
-                {
-                    String ip = null;
-                    ip = GetExternalIP();
-                    logIP(ip);
-                    //Console.WriteLine("IP Logged...");
-                   // Console.WriteLine("Sleeping...");
-                    System.Threading.Thread.Sleep(1800000);
-                }
-
+            string run = null;
+            run = main();
 
 
         }
+
+        public string main()
+
+        {
+            //Console.WriteLine("Initializing...");
+            while (true)
+            {
+                String ip = null;
+                ip = GetExternalIP();
+                logIP(ip);
+                //Console.WriteLine("IP Logged...");
+                // Console.WriteLine("Sleeping...");
+                System.Threading.Thread.Sleep(1800000);
+            }
+            
+        }
+
+
         public string GetExternalIP()
         {
             String url = "http://bot.whatismyipaddress.com/";
