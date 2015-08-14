@@ -26,7 +26,7 @@ namespace ipAutolog
             String filepath = @"c:\ipExternalLog\IPlog.txt";
             using (StreamWriter sw = File.CreateText(filepath))
             {
-                sw.WriteLine("Service Stopped");
+                sw.WriteLine("Service Started");
             }
             main(ip, filepath);
         }
