@@ -23,7 +23,7 @@ namespace ipAutolog
             };
             ServiceBase.Run(ServicesToRun);
             #else
-            Service1 iplog = new Service1();
+            ipAutolog iplog = new ipAutolog();
             iplog.main();
             #endif
         }

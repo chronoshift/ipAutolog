@@ -13,9 +13,9 @@ using System.Net;
 
 namespace ipAutolog
 {
-    public partial class Service1 : ServiceBase
+    public partial class ipAutolog : ServiceBase
     {
-        public Service1()
+        public ipAutolog()
         {
             InitializeComponent();
         }

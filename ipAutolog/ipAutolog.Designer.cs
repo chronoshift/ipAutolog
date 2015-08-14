@@ -1,6 +1,6 @@
 ﻿namespace ipAutolog
 {
-    partial class Service1
+    partial class ipAutolog
     {
         /// <summary> 
         /// Required designer variable.
