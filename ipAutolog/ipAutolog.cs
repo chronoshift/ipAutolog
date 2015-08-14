@@ -41,21 +41,37 @@ namespace ipAutolog
 
             String ip = null;
             String filepath = @"c:\ipExternalLog\IPlog.txt";
+
             using (StreamWriter sw = File.CreateText(filepath))
             {
                 sw.WriteLine("Service Started");
             }
-            //Console.WriteLine("Initializing...");
+
+            logIP(ip, filepath);
+            System.Threading.Thread.Sleep(initialTimeSleepsync(filepath));
+
             while (true)
             {
                 ip = GetExternalIP();
                 logIP(ip,filepath);
-                //Console.WriteLine("IP Logged...");
-                // Console.WriteLine("Sleeping...");
                 System.Threading.Thread.Sleep(1800000);
             }
             
         }
+
+        public Int32 initialTimeSleepsync(String filepath)
+        {
+            var datetime = DateTime.Parse(DateTime.Now.ToString());
+            var minutesPastHalfHour = datetime.Minute % 30;
+            var minutesBeforeHalfHour = 30 - minutesPastHalfHour;
+            var sleeptime = minutesBeforeHalfHour * 60000;
+            using (StreamWriter sw = File.CreateText(filepath))
+            {
+                sw.WriteLine("sleeping "+ minutesBeforeHalfHour.ToString()+" minutes to sync to clock");
+            }
+            return sleeptime;
+        }
+
 
         public void CheckFileAge(String filepath)
 
@@ -77,10 +93,8 @@ namespace ipAutolog
 
             try
                 {
-                    //Console.WriteLine("Scanning for IP...");
                     WebClient client = new WebClient();
                     result = client.DownloadString(url);
-                   // Console.WriteLine(result);
                     return result;
                 }
             catch (Exception ex)
