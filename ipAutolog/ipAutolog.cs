@@ -22,19 +22,23 @@ namespace ipAutolog
 
         protected override void OnStart(string[] args)
         {
-            main();
- 
+            String ip = null;
+            String filepath = @"c:\ipExternalLog\IPlog.txt";
+            using (StreamWriter sw = File.CreateText(filepath))
+            {
+                sw.WriteLine("Service Stopped");
+            }
+            main(ip, filepath);
         }
 
-        public void main()
+        public void main(String ip, String filepath)
 
         {
             //Console.WriteLine("Initializing...");
             while (true)
             {
-                String ip = null;
                 ip = GetExternalIP();
-                logIP(ip);
+                logIP(ip,filepath);
                 //Console.WriteLine("IP Logged...");
                 // Console.WriteLine("Sleeping...");
                 System.Threading.Thread.Sleep(1800000);
@@ -42,15 +46,15 @@ namespace ipAutolog
             
         }
 
-        public void CheckFileAge()
+        public void CheckFileAge(String filepath)
 
         {
-            DateTime fileCreatedDate = File.GetCreationTime(@"c:\ipExternalLog\IPlog.txt");
+            DateTime fileCreatedDate = File.GetCreationTime(filepath);
             DateTime today = System.DateTime.Now;
             Double totaldaysbetween = (today - fileCreatedDate).TotalDays;
             if (totaldaysbetween > 30.0)
                 {
-                File.Delete(@"c:\ipExternalLog\IPlog.txt");
+                File.Delete(filepath);
                 }
         }
 
@@ -75,26 +79,29 @@ namespace ipAutolog
 
         }
 
-        public void logIP(String ip)
-        {
-            string path = @"c:\ipExternalLog\IPlog.txt";
+        public void logIP(String ip, String filepath)
+        { 
             // This text is added only once to the file. 
-            if (!File.Exists(path))
+            if (!File.Exists(filepath))
             {
                 // Create a file to write to. 
-                CheckFileAge();
-                using (StreamWriter sw = File.CreateText(path))
+                CheckFileAge(filepath);
+                using (StreamWriter sw = File.CreateText(filepath))
                 {
                     sw.WriteLine(ip + " - " + DateTime.Now);
                 }
             }
-            using (StreamWriter sw = File.AppendText(path))
+            using (StreamWriter sw = File.AppendText(filepath))
             {
                 sw.WriteLine(ip + " - " + DateTime.Now);
             }
         }
         protected override void OnStop()
         {
+            using (StreamWriter sw = File.CreateText(@"c:\ipExternalLog\IPlog.txt"))
+            {
+                sw.WriteLine("Service Stopped");
+            }
         }
     }
 }
