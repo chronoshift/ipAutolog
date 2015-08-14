@@ -24,7 +24,9 @@ namespace ipAutolog
             ServiceBase.Run(ServicesToRun);
             #else
             ipAutolog iplog = new ipAutolog();
-            iplog.main();
+            String ip = null;
+            String filepath = @"c:\ipExternalLog\IPlog.txt";
+            iplog.main(ip,filepath);
             #endif
         }
     }
