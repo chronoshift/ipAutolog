@@ -64,6 +64,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="install.bat" />
+    <None Include="start.bat" />
+    <None Include="stop.bat" />
+    <None Include="uninstall.bat" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">

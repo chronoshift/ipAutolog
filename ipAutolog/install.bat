@@ -1,1 +1,2 @@
-%~dp0 installutil -ipAutolog.exe
+cd %~dp0 
+installutil -ipAutolog.exe
