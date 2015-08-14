@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using System.Net;
@@ -15,6 +16,9 @@ namespace ipAutolog
 {
     public partial class ipAutolog : ServiceBase
     {
+        private ManualResetEvent _shutdownEvent = new ManualResetEvent(false);
+        private Thread _thread;
+
         public ipAutolog()
         {
             InitializeComponent();
@@ -22,18 +26,21 @@ namespace ipAutolog
 
         protected override void OnStart(string[] args)
         {
-            String ip = null;
+
             String filepath = @"c:\ipExternalLog\IPlog.txt";
             using (StreamWriter sw = File.CreateText(filepath))
             {
                 sw.WriteLine("Service Started");
             }
-            main(ip, filepath);
+            _thread = new Thread(new ThreadStart(main),0);
+            _thread.Start(42);
         }
 
-        public void main(String ip, String filepath)
+        public void main()
 
         {
+            String ip = null;
+            String filepath = @"c:\ipExternalLog\IPlog.txt";
             //Console.WriteLine("Initializing...");
             while (true)
             {
