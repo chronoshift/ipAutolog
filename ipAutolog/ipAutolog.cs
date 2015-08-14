@@ -45,16 +45,14 @@ namespace ipAutolog
             String filepath = @"c:\ipExternalLog\IPlog.txt";
             String message = "Service Started";
             CreateOrAppendFile(filepath, message);
-            ip = GetExternalIP();
-            message = ip + " - " + DateTime.Now;
+            message = GetExternalIP();
             CreateOrAppendFile(filepath, message);
 
             System.Threading.Thread.Sleep(initialTimeSleepsync(filepath,message));
 
             while (true)
             {
-                ip = GetExternalIP();
-                message = ip + " - " + DateTime.Now;
+                message = GetExternalIP(); ;
                 CreateOrAppendFile(filepath,message);
                 System.Threading.Thread.Sleep(1800000);
             }
@@ -110,6 +108,7 @@ namespace ipAutolog
 
         public void CreateOrAppendFile(String filepath, String message)
             {
+            message = message + " - " + DateTime.Now;
             if (!File.Exists(filepath))
             {
                 // Create a file to write to. 
