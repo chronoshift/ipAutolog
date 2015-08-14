@@ -40,7 +40,7 @@
             // serviceInstaller1
             // 
             this.serviceInstaller1.Description = "logs external ip";
-            this.serviceInstaller1.DisplayName = "ipAutolog Dislpay Name";
+            this.serviceInstaller1.DisplayName = "ipAutolog";
             this.serviceInstaller1.ServiceName = "ipAutolog";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
