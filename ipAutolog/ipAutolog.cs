@@ -41,7 +41,6 @@ namespace ipAutolog
 
             ServiceBase.Run(ServicesToRun);
 
-            String ip = null;
             String filepath = @"c:\ipExternalLog\IPlog.txt";
             String message = "Service Started";
             CreateOrAppendFile(filepath, message);
