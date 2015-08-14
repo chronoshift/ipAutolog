@@ -18,7 +18,6 @@ namespace ipAutolog
     {
         private ManualResetEvent _shutdownEvent = new ManualResetEvent(false);
         private Thread _thread;
-
         public ipAutolog()
         {
             InitializeComponent();
@@ -26,22 +25,26 @@ namespace ipAutolog
 
         protected override void OnStart(string[] args)
         {
+            ThreadStart threadstart = this.main;
+            _thread = new Thread(threadstart);
+            _thread.Start();
+        }
+        public void main()
 
+        {
+            ServiceBase[] ServicesToRun;
+            ServicesToRun = new ServiceBase[]
+                  {
+            new ipAutolog()
+                  };
+            ServiceBase.Run(ServicesToRun);
+
+            String ip = null;
             String filepath = @"c:\ipExternalLog\IPlog.txt";
             using (StreamWriter sw = File.CreateText(filepath))
             {
                 sw.WriteLine("Service Started");
             }
-            Thread MyThread = new Thread(new ThreadStart(main));
-            MyThread.Start();
-
-            base.OnStart(args);
-        }
-        public void main()
-
-        {
-            String ip = null;
-            String filepath = @"c:\ipExternalLog\IPlog.txt";
             //Console.WriteLine("Initializing...");
             while (true)
             {
