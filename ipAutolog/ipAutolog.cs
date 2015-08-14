@@ -29,46 +29,49 @@ namespace ipAutolog
             _thread = new Thread(threadstart);
             _thread.Start();
         }
+
         public void main()
 
         {
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
                   {
-            new ipAutolog()
+                        new ipAutolog()
                   };
+
             ServiceBase.Run(ServicesToRun);
 
             String ip = null;
             String filepath = @"c:\ipExternalLog\IPlog.txt";
+            String message = "Service Started";
+            CreateOrAppendFile(filepath, message);
+            ip = GetExternalIP();
+            message = ip + " - " + DateTime.Now;
+            CreateOrAppendFile(filepath, message);
 
-            using (StreamWriter sw = File.CreateText(filepath))
-            {
-                sw.WriteLine("Service Started");
-            }
-
-            logIP(ip, filepath);
-            System.Threading.Thread.Sleep(initialTimeSleepsync(filepath));
+            System.Threading.Thread.Sleep(initialTimeSleepsync(filepath,message));
 
             while (true)
             {
                 ip = GetExternalIP();
-                logIP(ip,filepath);
+                message = ip + " - " + DateTime.Now;
+                CreateOrAppendFile(filepath,message);
                 System.Threading.Thread.Sleep(1800000);
             }
             
         }
+//--------------------------------------------------------------------------------------------------------------------------------------------
 
-        public Int32 initialTimeSleepsync(String filepath)
+        public Int32 initialTimeSleepsync(String filepath,String message)
         {
+            
             var datetime = DateTime.Parse(DateTime.Now.ToString());
             var minutesPastHalfHour = datetime.Minute % 30;
             var minutesBeforeHalfHour = 30 - minutesPastHalfHour;
             var sleeptime = minutesBeforeHalfHour * 60000;
-            using (StreamWriter sw = File.CreateText(filepath))
-            {
-                sw.WriteLine("sleeping "+ minutesBeforeHalfHour.ToString()+" minutes to sync to clock");
-            }
+            message = "sleeping " + minutesBeforeHalfHour.ToString() + " minutes to sync to clock";
+            CreateOrAppendFile(filepath, message);
+
             return sleeptime;
         }
 
@@ -104,29 +107,28 @@ namespace ipAutolog
 
         }
 
-        public void logIP(String ip, String filepath)
-        { 
-            // This text is added only once to the file. 
+
+        public void CreateOrAppendFile(String filepath, String message)
+            {
             if (!File.Exists(filepath))
             {
                 // Create a file to write to. 
                 CheckFileAge(filepath);
                 using (StreamWriter sw = File.CreateText(filepath))
                 {
-                    sw.WriteLine(ip + " - " + DateTime.Now);
+                    sw.WriteLine(message);
                 }
             }
             using (StreamWriter sw = File.AppendText(filepath))
             {
-                sw.WriteLine(ip + " - " + DateTime.Now);
+                sw.WriteLine(message);
             }
         }
         protected override void OnStop()
         {
-            using (StreamWriter sw = File.CreateText(@"c:\ipExternalLog\IPlog.txt"))
-            {
-                sw.WriteLine("Service Stopped");
-            }
+            String filepath = @"c:\ipExternalLog\IPlog.txt";
+            String message = "Service Stopped";
+            CreateOrAppendFile(filepath, message);
         }
     }
 }
