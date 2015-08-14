@@ -32,10 +32,11 @@ namespace ipAutolog
             {
                 sw.WriteLine("Service Started");
             }
-            _thread = new Thread(new ThreadStart(main),0);
-            _thread.Start(42);
-        }
+            Thread MyThread = new Thread(new ThreadStart(main));
+            MyThread.Start();
 
+            base.OnStart(args);
+        }
         public void main()
 
         {
