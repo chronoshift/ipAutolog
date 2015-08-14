@@ -72,7 +72,6 @@ namespace ipAutolog
             return sleeptime;
         }
 
-
         public void CheckFileAge(String filepath)
 
         {
@@ -85,12 +84,10 @@ namespace ipAutolog
                 }
         }
 
-
         public string GetExternalIP()
         {
             String url = "http://bot.whatismyipaddress.com/";
             String result = null;
-
             try
                 {
                     WebClient client = new WebClient();
@@ -101,7 +98,6 @@ namespace ipAutolog
                 {
                     return ex.ToString();
                 }
-
         }
 
 
